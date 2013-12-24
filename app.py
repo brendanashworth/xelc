@@ -25,16 +25,16 @@ def index(path):
 	else:
 		chars = []
 		while (count >= 0):
-			if count > 31:
-				chars.append(31)
+			if count > 25:
+				chars.append(25)
 			else:
 				chars.append(count)
 
-			count -= 31
+			count -= 25
 
 		str = ''
 		for char in chars:
-			str += chr(101 + char)
+			str += chr(97 + char)
 
 		r.hset('links', str, request.form['url'])
 		return str
