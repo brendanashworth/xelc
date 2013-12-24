@@ -48,5 +48,6 @@ def get_link(link):
 	else:
 		return abort(404)
 
-
-app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])
+from gevent.wsgi import WSGIServer
+http_server = WSGIServer(('', app.config['APP_PORT']), app)
+http_server.serve_forever()
