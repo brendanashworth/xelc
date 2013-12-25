@@ -14,7 +14,7 @@ app.config.update(
 	URL_BASE = 'http://192.168.1.149:5000/' # Must end with a slash
 );
 
-import redis
+import redis, math
 r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'], db=app.config['REDIS_DB'])
 
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST'])
@@ -39,23 +39,23 @@ def index(path):
 
 		chars = []
 
-		import math
 		def shorten(input):
 			pointer = math.floor(input / 25)
 			if pointer > 25:
 				pointer = shorten(pointer)
+				chars.append(pointer)
 			else:
 				remainder = input % 25
 				chars.append(pointer)
 				chars.append(remainder)
 
-			return count
+			return pointer
 
 		shorten(count)
 
 		str = ''
 		for char in chars:
-			str += chr(97 + char)
+			str += chr(97 + int(char))
 
 		r.hset('links', str, request.form['url'])
 		return str, 200
