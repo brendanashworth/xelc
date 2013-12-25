@@ -41,11 +41,11 @@ def index(path):
 
 		import math
 		def shorten(input):
-			pointer = math.floor(input / 26)
-			if pointer > 26:
+			pointer = math.floor(input / 25)
+			if pointer > 25:
 				pointer = shorten(pointer)
 			else:
-				remainder = input % 26
+				remainder = input % 25
 				chars.append(pointer)
 				chars.append(remainder)
 
