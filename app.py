@@ -23,6 +23,20 @@ def index(path):
 	if request.method == 'GET':
 		return render_template('index.html', count=count, url_base=app.config['URL_BASE'])
 	else:
+		# UEL regexp from django
+		import re
+		regex = re.compile(
+			r'^(?:http)s?://' # http:// or https://
+			r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' # domain...
+			r'localhost|' # localhost...
+			r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|' # ...or ipv4
+			r'\[?[A-F0-9]*:[A-F0-9:]+\]?)' # ...or ipv6
+			r'(?::\d+)?' # optional port
+			r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+
+		if not regex.search(request.form['url']):
+			return 'Invalid URL! Be sure to prepend with http:// or https://'
+
 		chars = []
 		while (count >= 0):
 			if count > 25:
