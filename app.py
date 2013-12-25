@@ -35,23 +35,30 @@ def index(path):
 			r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 		if not regex.search(request.form['url']):
-			return 'Invalid URL! Be sure to prepend with http:// or https://'
+			return 'Invalid URL! Be sure to prepend with http:// or https://', 400
 
 		chars = []
-		while (count >= 0):
-			if count > 25:
-				chars.append(25)
-			else:
-				chars.append(count)
 
-			count -= 25
+		import math
+		def shorten(input):
+			pointer = math.floor(input / 26)
+			if pointer > 26:
+				pointer = shorten(pointer)
+			else:
+				remainder = input % 26
+				chars.append(pointer)
+				chars.append(remainder)
+
+			return count
+
+		shorten(count)
 
 		str = ''
 		for char in chars:
 			str += chr(97 + char)
 
 		r.hset('links', str, request.form['url'])
-		return str
+		return str, 200
 
 @app.route('/<link>')
 def get_link(link):

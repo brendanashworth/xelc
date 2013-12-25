@@ -21,9 +21,9 @@ $(document).ready(function() {
 			$urlbox[0].select();
 			$count.html(parseInt($count.html(), 10) + 1);
 		})
-		.fail(function() {
+		.fail(function(jqXHR) {
 			$fg.addClass('has-error');
-			$urlbox.val('Something went wrong!');
+			$urlbox.val(jqXHR.responseText || 'Something went wrong!');
 		})
 		.always(function() {
 			$btn.removeClass('disabled');
