@@ -11,10 +11,13 @@ app.config.update(
 	APP_HOST='0.0.0.0',
 	APP_PORT=5000,
 
-	URL_BASE = 'http://192.168.1.149:5000/' # Must end with a slash
+	URL_BASE = 'http://192.168.1.149:5000/', # Must end with a slash
+	
+	ENABLE_EVIL = False, # Are you evil?
+	EVIL_LEVEL = 1 # How evil?
 );
 
-import redis, math
+import redis, math, random
 r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'], db=app.config['REDIS_DB'])
 
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST'])
@@ -62,6 +65,14 @@ def index(path):
 
 @app.route('/<link>')
 def get_link(link):
+	
+	if app.config['ENABLE_EVIL'] and random.randint(0, 100) <= app.config['EVIL_LEVEL']:
+		evil_sites = [
+			# Put your evil sites here...
+		]
+		return redirect(random.choice(evil_sites))
+		
+	
 	url = r.hget('links', link)
 
 	if url:
