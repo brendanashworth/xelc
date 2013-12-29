@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, abort
+from flask import Flask, request, render_template, redirect, abort, url_for
 
 app = Flask(__name__);
 app.config.from_object('config')
@@ -11,7 +11,7 @@ r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT
 def index(path):
 	count = r.hlen('links')
 	if request.method == 'GET':
-		return render_template('index.html', count=count, url_base=app.config['URL_BASE'])
+		return render_template('index.html', count=count, url_base=url_for('index', _external=True))
 	else:
 		parts = urlparse(request.form['url'])
 		if not parts.scheme in ('http', 'https'):

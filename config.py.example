@@ -7,7 +7,5 @@ REDIS_DB=0
 APP_HOST='0.0.0.0'
 APP_PORT=5000
 
-URL_BASE = 'http://192.168.1.149:5000/' # Must end with a slash
-
 ENABLE_EVIL = False # Are you evil?
 EVIL_LEVEL = 1 # How evil?
