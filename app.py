@@ -12,7 +12,7 @@ app.config.update(
 	APP_PORT=5000,
 
 	URL_BASE = 'http://192.168.1.149:5000/', # Must end with a slash
-	
+
 	ENABLE_EVIL = False, # Are you evil?
 	EVIL_LEVEL = 1 # How evil?
 );
@@ -65,14 +65,14 @@ def index(path):
 
 @app.route('/<link>')
 def get_link(link):
-	
+
 	if app.config['ENABLE_EVIL'] and random.randint(0, 100) <= app.config['EVIL_LEVEL']:
 		evil_sites = [
 			# Put your evil sites here...
 		]
 		return redirect(random.choice(evil_sites))
-		
-	
+
+
 	url = r.hget('links', link)
 
 	if url:
