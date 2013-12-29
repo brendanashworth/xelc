@@ -1,21 +1,7 @@
 from flask import Flask, request, render_template, redirect, abort
 
 app = Flask(__name__);
-app.config.update(
-	DEBUG=True,
-	SECRET_KEY='changeme',
-	REDIS_HOST='localhost',
-	REDIS_PORT=6379,
-	REDIS_DB=0,
-
-	APP_HOST='0.0.0.0',
-	APP_PORT=5000,
-
-	URL_BASE = 'http://192.168.1.149:5000/', # Must end with a slash
-
-	ENABLE_EVIL = False, # Are you evil?
-	EVIL_LEVEL = 1 # How evil?
-);
+app.config.from_object('config')
 
 import redis, math, random
 r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'], db=app.config['REDIS_DB'])
@@ -80,6 +66,7 @@ def get_link(link):
 	else:
 		return abort(404)
 
+print app.config
 from gevent.wsgi import WSGIServer
 http_server = WSGIServer(('', app.config['APP_PORT']), app)
 http_server.serve_forever()
