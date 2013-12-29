@@ -4,6 +4,7 @@ app = Flask(__name__);
 app.config.from_object('config')
 
 import redis, math, random
+from urlparse import urlparse
 r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'], db=app.config['REDIS_DB'])
 
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST'])
@@ -12,18 +13,8 @@ def index(path):
 	if request.method == 'GET':
 		return render_template('index.html', count=count, url_base=app.config['URL_BASE'])
 	else:
-		# UEL regexp from django
-		import re
-		regex = re.compile(
-			r'^(?:http)s?://' # http:// or https://
-			r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' # domain...
-			r'localhost|' # localhost...
-			r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|' # ...or ipv4
-			r'\[?[A-F0-9]*:[A-F0-9:]+\]?)' # ...or ipv6
-			r'(?::\d+)?' # optional port
-			r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-
-		if not regex.search(request.form['url']):
+		parts = urlparse(request.form['url'])
+		if not parts.scheme in ('http', 'https'):
 			return 'Invalid URL! Be sure to prepend with http:// or https://', 400
 
 		chars = []
