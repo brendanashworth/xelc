@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Gilbert.pw</title>
+	<title>xelc</title>
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" type="text/css">
-	<link rel="stylesheet" href="{{ url_for('static', filename='ui.css')}}" type="text/css">
-	<link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" type="text/css">
+	<link rel="stylesheet" href="/static/ui.css" type="text/css">
+	<link rel="stylesheet" href="/static/style.css" type="text/css">
 </head>
 <body>
 	<div class="container">
-		<h1>Gilbert.pw</h1>
+		<h1>xelc</h1>
 		<div class="form-group">
 			<input type="text" class="form-control" id="url" placeholder="Link to Shorten" value="http://">
 		</div>
@@ -22,6 +22,6 @@
 	</div>
 	<div id="baseurl" style="display:none">{{ url_base }}</div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="{{ url_for('static', filename='app.js')}}"></script>
+	<script src="/static/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,25 @@
+{
+  "name": "xelc",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brendanashworth/xelc"
+  },
+  "author": "Brendan Ashworth",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brendanashworth/xelc/issues"
+  },
+  "homepage": "https://github.com/brendanashworth/xelc",
+  "dependencies": {
+    "express": "^4.9.5",
+    "md5": "^1.0.0",
+    "mustache": "^0.8.2",
+    "redis": "^0.12.1"
+  }
+}
