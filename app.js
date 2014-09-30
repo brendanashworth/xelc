@@ -76,3 +76,5 @@ app.get('/:link', function(req, res) {
 		res.redirect(url);
 	});
 });
+
+app.listen(80);
