@@ -3,7 +3,7 @@ var Mustache = require('mustache'),
 	fs = require('fs'),
 	md5 = require('md5'),
 	express = require('express'),
-	app = express(),;
+	app = express();
 
 // redis
 var redis = require('redis'),
@@ -41,7 +41,7 @@ app.get('/', function(req, res) {
 // Submit a link
 app.post('/', function(req, res) {
 	var url = req.body.url,
-		regex = /(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)/;
+		regex = /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*(\?\S+)?)?)?)/;
 
 	// Ensure user supplied URL
 	if (!url || !regex.match(url)) {
