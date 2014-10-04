@@ -5,12 +5,14 @@ var Handlebars = require('handlebars'),
 	express = require('express'),
 	app = express();
 
+var config = require('./config');
+
 // redis
 var redis = require('redis'),
 	client = redis.createClient();
 
 // Handle middleware
-app.use(require('body-parser').json());
+app.use(require('body-parser').urlencoded({extended: true}));
 app.use('/static', express.static('static'));
 
 // Request main page
@@ -22,9 +24,6 @@ app.get('/', function(req, res) {
 			return;
 		}
 
-		// some base url value?
-		var index = ':)';
-
 		// Render response
 		fs.readFile('./templates/index.html', {encoding: 'utf8'}, function(err, data) {
 			if (err) {
@@ -33,7 +32,7 @@ app.get('/', function(req, res) {
 			}
 
 			// Send to client
-			res.status(200).send(Handlebars.compile(data)({count: count, baseUrl: index}));
+			res.status(200).send(Handlebars.compile(data)({count: count, baseUrl: config.app.baseUrl}));
 		});
 	});
 });
@@ -59,7 +58,7 @@ app.post('/', function(req, res) {
 // Visit a link
 app.get('/:link', function(req, res) {
 	var link = req.params.link,
-		regex = /^[0-9a-zA-Z]{7}$/;
+		regex = /^[0-9a-zA-Z]{6}$/;
 
 	// Ensure valid link
 	if (!link || !link.match(regex)) {
@@ -77,4 +76,4 @@ app.get('/:link', function(req, res) {
 	});
 });
 
-app.listen(8080);
+app.listen(config.app.port);
