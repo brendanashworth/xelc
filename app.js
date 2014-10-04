@@ -1,5 +1,5 @@
 // app
-var Mustache = require('mustache'),
+var Handlebars = require('handlebars'),
 	fs = require('fs'),
 	md5 = require('md5'),
 	express = require('express'),
@@ -10,7 +10,7 @@ var redis = require('redis'),
 	client = redis.createClient();
 
 // Handle middleware
-app.use(express.bodyParser());
+app.use(require('body-parser').json());
 app.use('/static', express.static('static'));
 
 // Request main page
@@ -26,14 +26,14 @@ app.get('/', function(req, res) {
 		var index = ':)';
 
 		// Render response
-		fs.readFile('./templates/index.html', function(err, data) {
+		fs.readFile('./templates/index.html', {encoding: 'utf8'}, function(err, data) {
 			if (err) {
 				res.status(500).send('Uh oh! An error has occurred.').end();
 				return;
 			}
 
 			// Send to client
-			res.status(200).send(Mustache.render(data, {count: count, baseUrl: index}));
+			res.status(200).send(Handlebars.compile(data)({count: count, baseUrl: index}));
 		});
 	});
 });
@@ -44,7 +44,7 @@ app.post('/', function(req, res) {
 		regex = /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*(\?\S+)?)?)?)/;
 
 	// Ensure user supplied URL
-	if (!url || !regex.match(url)) {
+	if (!url || !url.match(regex)) {
 		res.status(500).send('Must supply valid URL.').end();
 		return;
 	}
@@ -62,7 +62,7 @@ app.get('/:link', function(req, res) {
 		regex = /^[0-9a-zA-Z]{7}$/;
 
 	// Ensure valid link
-	if (!link || !regex.match(link)) {
+	if (!link || !link.match(regex)) {
 		res.status(500).send('Must supply valid link.').end();
 		return;
 	}
@@ -77,4 +77,4 @@ app.get('/:link', function(req, res) {
 	});
 });
 
-app.listen(80);
+app.listen(8080);

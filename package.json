@@ -17,9 +17,10 @@
   },
   "homepage": "https://github.com/brendanashworth/xelc",
   "dependencies": {
+    "body-parser": "^1.9.0",
     "express": "^4.9.5",
+    "handlebars": "^2.0.0",
     "md5": "^1.0.0",
-    "mustache": "^0.8.2",
     "redis": "^0.12.1"
   }
 }
