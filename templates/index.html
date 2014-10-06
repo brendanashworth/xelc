@@ -14,10 +14,12 @@
 			<input type="text" class="form-control" id="url" placeholder="Link to Shorten" value="http://">
 		</div>
 		<div class="row">
-			<div class="col-lg-4 muted btn">
-				<span id="count">{{ count }}</span> URLs Shortened
+			<div class="col-lg-4">
+				<p class="text-center"><span class="text-success" id="count">{{ count }}</span> URLs Shortened</p>
 			</div>
-			<button class="btn btn-primary col-lg-8" id="submit">Shorten This!</button>
+			<div class="col-lg-8">
+				<button class="btn btn-primary btn-block" id="submit">Shorten This!</button>
+			</div>
 		</div>
 	</div>
 	<div id="baseurl" style="display:none">{{ baseUrl }}</div>
