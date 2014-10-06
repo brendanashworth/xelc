@@ -1,15 +1,20 @@
-// app
+// App
 var Handlebars = require('handlebars'),
 	fs = require('fs'),
+	url = require('url'),
 	md5 = require('md5'),
 	express = require('express'),
 	app = express();
 
 var config = require('./config');
 
-// redis
+// Redis
 var redis = require('redis'),
-	client = redis.createClient();
+	redisURL = url.parse(process.env.REDISCLOUD_URL),
+	client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+
+// Authenticate the redis client
+client.auth(redisURL.auth.split(':')[1]);
 
 // Handle middleware
 app.use(require('body-parser').urlencoded({extended: true}));
