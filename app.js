@@ -81,4 +81,4 @@ app.get('/:link', function(req, res) {
 	});
 });
 
-app.listen(config.app.port);
+app.listen(process.env.PORT || config.app.port);
